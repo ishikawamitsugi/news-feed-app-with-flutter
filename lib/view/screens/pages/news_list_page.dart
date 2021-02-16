@@ -20,9 +20,10 @@ class NewsListPage extends StatelessWidget {
               ),
               // CategoryChips(),
               Expanded(
-                  child: Center(
-                child: CircularProgressIndicator(),
-              )),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
             ],
           ),
         ),

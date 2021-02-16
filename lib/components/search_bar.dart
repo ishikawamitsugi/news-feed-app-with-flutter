@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
-
   final ValueChanged onSearch;
   final TextEditingController _textEditingController = TextEditingController();
 
