@@ -18,11 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
               label: 'トップニュース', icon: Icon(Icons.highlight)),
           BottomNavigationBarItem(label: 'ニュース一覧', icon: Icon(Icons.list)),
-          BottomNavigationBarItem(label: 'このアプリについて', icon: Icon(Icons.info))
+          BottomNavigationBarItem(label: 'このアプリについて', icon: Icon(Icons.info)),
         ],
         onTap: (index) {
           setState(() {
