@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_feed/components/category_chips.dart';
 import 'package:news_feed/components/search_bar.dart';
 
 class NewsListPage extends StatelessWidget {
@@ -18,7 +19,10 @@ class NewsListPage extends StatelessWidget {
               SearchBar(
                 onSearch: (keyword) => getKeywordNews(context, keyword),
               ),
-              // CategoryChips(),
+              CategoryChips(
+                  onCategorySelected: (category) =>
+                      getCategoryNews(context, category);
+              ),
               Expanded(
                 child: Center(
                   child: CircularProgressIndicator(),
@@ -35,6 +39,10 @@ class NewsListPage extends StatelessWidget {
   onRefresh(BuildContext context) {}
 
   getKeywordNews(BuildContext context, String keyword) {
-    print("my input keyword: ${keyword}");
+    print("my input keyword: $keyword");
+  }
+
+  getCategoryNews(BuildContext context, category) {
+    print("my input keyword: ${category.nameJp}");
   }
 }
