@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:news_feed/view/screens/home_screen.dart';
 import 'package:news_feed/view/style/style.dart';
+import 'package:news_feed/view_models/news_list_view_model.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  return runApp(ChangeNotifierProvider(
+    create: (context) => NewsListViewModel(),
+    lazy:false, // 遅延読み込みをやめる
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
