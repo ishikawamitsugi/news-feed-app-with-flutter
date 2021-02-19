@@ -18,9 +18,7 @@ class _$ApiService extends ApiService {
 
   @override
   Future<Response<dynamic>> getHeadLines(
-      {String country = "jp",
-      int pageSize = 10,
-      String apiKey = ApiService.API_KEY}) {
+      {String country = "jp", int pageSize = 10, String apiKey}) {
     final $url = '/top-headlines';
     final $params = <String, dynamic>{
       'country': country,
@@ -36,7 +34,7 @@ class _$ApiService extends ApiService {
       {String country = "jp",
       int pageSize = 30,
       String keyword,
-      String apiKey = ApiService.API_KEY}) {
+      String apiKey}) {
     final $url = '/top-headlines';
     final $params = <String, dynamic>{
       'country': country,
@@ -53,7 +51,7 @@ class _$ApiService extends ApiService {
       {String country = "jp",
       int pageSize = 30,
       String category,
-      String apiKey = ApiService.API_KEY}) {
+      String apiKey}) {
     final $url = '/top-headlines';
     final $params = <String, dynamic>{
       'country': country,

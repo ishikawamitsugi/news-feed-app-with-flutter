@@ -3,13 +3,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 part 'api_service.chopper.dart';
 
-// API_KEYは下記のような記述を行う。
-// static final API_KEY = DotEnv.env["NEWS_API_KEY"];
-
 @ChopperApi()
 abstract class ApiService extends ChopperService {
   static const BASE_URL = "http://newsapi.org/v2/";
-  static final API_KEY = DotEnv.env["NEWS_API_KEY"];
+  // API_KEYは下記のような記述を行う。
+  // static final API_KEY = DotEnv.env["NEWS_API_KEY"];
 
   static create() {
     final client = ChopperClient(
