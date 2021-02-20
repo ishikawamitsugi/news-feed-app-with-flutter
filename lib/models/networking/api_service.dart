@@ -5,7 +5,7 @@ part 'api_service.chopper.dart';
 
 @ChopperApi()
 abstract class ApiService extends ChopperService {
-  static const BASE_URL = "http://newsapi.org/v2/";
+  static const BASE_URL = "https://newsapi.org/v2";
   // API_KEYは下記のような記述を行う。
   // static final API_KEY = DotEnv.env["NEWS_API_KEY"];
 
