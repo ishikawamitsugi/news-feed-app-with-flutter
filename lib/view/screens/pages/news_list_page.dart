@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:news_feed/components/article_tile.dart';
 import 'package:news_feed/components/category_chips.dart';
 import 'package:news_feed/components/search_bar.dart';
 import 'package:news_feed/data/category_info.dart';
 import 'package:news_feed/data/search_type.dart';
+import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/view_models/news_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -44,10 +46,10 @@ class NewsListPage extends StatelessWidget {
                           )
                         : ListView.builder(
                             itemCount: viewModel.articles.length,
-                            itemBuilder: (context, int index) => ListTile(
-                              title: Text(viewModel.articles[index].title),
-                              subtitle:
-                                  Text(viewModel.articles[index].description),
+                            itemBuilder: (context, int index) => ArticleTile(
+                              article: viewModel.articles[index],
+                              onArticleClicked: (article) =>
+                                  _openArticlePage(context, article),
                             ),
                           );
                   },
@@ -88,4 +90,6 @@ class NewsListPage extends StatelessWidget {
     );
     print("my input keyword: ${category.nameJp}");
   }
+
+  _openArticlePage(BuildContext context, Article article) {}
 }
