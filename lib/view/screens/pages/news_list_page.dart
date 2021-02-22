@@ -9,10 +9,11 @@ import 'package:news_feed/view_models/news_list_view_model.dart';
 import 'package:provider/provider.dart';
 
 class NewsListPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    final viewModel = NewsListViewModel();
-
+    // 右記のような記述でも可　context.read<ViewModel>();　
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
     if (!viewModel.isLoading && viewModel.articles.isEmpty) {
       Future(() => viewModel.getNews(
           searchType: SearchType.CATEGORY,
