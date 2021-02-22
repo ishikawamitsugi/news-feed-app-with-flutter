@@ -15,13 +15,13 @@ class NewsRepository {
       {@required SearchType searchType, String keyword, Category category}) async {
     Response response;
     final apiKey = DotEnv.env["NEWS_API_KEY"];
-    List<Article> result = List<Article>();
+    List<Article> result = [];
     print("get apiKey : $apiKey");
 
     try {
       switch (searchType) {
         case SearchType.HEAD_LINE:
-          response = await _apiService.getHeadLines();
+          response = await _apiService.getHeadLines(apiKey: apiKey);
           break;
         case SearchType.KEY_WORD:
           response = await _apiService.getKeywordNews(keyword: keyword, apiKey: apiKey);
@@ -39,8 +39,8 @@ class NewsRepository {
             .articles;
       } else {
         final errCode = response.statusCode;
-        final errror = response.error;
-        print("response is not successful errCode: $errCode / $errror");
+        final error = response.error;
+        print("response is not successful errCode: $errCode / $error");
       }
     }
     on Exception catch (error) {
