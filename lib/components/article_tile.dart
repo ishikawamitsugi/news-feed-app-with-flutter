@@ -25,14 +25,18 @@ class ArticleTile extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: ImageFromUrl(
-                  imageUrl: article.urlToImage,
+                padding: EdgeInsets.all(4.0),
+                child: Container(
+                  width: 120,
+                  height:100,
+                  child: ImageFromUrl(
+                    imageUrl: article.urlToImage,
+                  ),
                 ),
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Padding(
                   padding: EdgeInsets.all((8.0)),
                   child: ArticleTileDesc(

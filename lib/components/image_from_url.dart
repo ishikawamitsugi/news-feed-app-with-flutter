@@ -18,6 +18,14 @@ class ImageFromUrl extends StatelessWidget {
       } else {
         return CachedNetworkImage(
           imageUrl: imageUrl,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+            ),
+          ),
           placeholder: (context, url) => CircularProgressIndicator(),
           errorWidget: (context, url, error) => Icon(Icons.broken_image),
         );
