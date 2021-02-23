@@ -26,7 +26,9 @@ class ImageFromUrl extends StatelessWidget {
                 ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(),
+          placeholder: (context, url) => Center(
+            child: CircularProgressIndicator(),
+          ),
           errorWidget: (context, url, error) => Icon(Icons.broken_image),
         );
       }
