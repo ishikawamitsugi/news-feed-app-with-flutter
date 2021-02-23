@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_feed/components/image_from_url.dart';
+import 'package:news_feed/components/lazy_load_text.dart';
 import 'package:news_feed/components/page_transformer.dart';
 import 'package:news_feed/models/model/news_model.dart';
 
@@ -12,44 +13,41 @@ class HeadLineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Card(
-      // カードの下に落ちる影
-      elevation: 4.0,
-      child: InkWell(
-        onTap: () => this.onArticleClicked(this.article),
-        child: Stack(
-          children: [
-            DecoratedBox(
-                // デコレーションは上からかける
-                position: DecorationPosition.foreground,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black87,
-                      Colors.black26,
-                    ],
+        // カードの下に落ちる影
+        elevation: 4.0,
+        child: InkWell(
+          onTap: () => this.onArticleClicked(this.article),
+          child: Stack(
+            children: [
+              DecoratedBox(
+                  // デコレーションは上からかける
+                  position: DecorationPosition.foreground,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black87,
+                        Colors.black26,
+                      ],
+                    ),
                   ),
+                  child: ImageFromUrl(
+                    imageUrl: article.urlToImage,
+                  )),
+              Positioned(
+                right: 32,
+                left: 32,
+                bottom: 56.0,
+                child: LazyLoadText(
+                  text: article.title,
+                  pageVisibility: pageVisibility,
                 ),
-                child: ImageFromUrl(
-                  imageUrl: article.urlToImage,
-                )),
-            Positioned(
-              right: 32,
-              left: 32,
-              bottom: 56.0,
-              child: Text(
-                article.title,
-                style:
-                    textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }
