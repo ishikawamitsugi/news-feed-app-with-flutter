@@ -3,6 +3,7 @@ import 'package:news_feed/components/head_line_item.dart';
 import 'package:news_feed/components/page_transformer.dart';
 import 'package:news_feed/data/search_type.dart';
 import 'package:news_feed/models/model/news_model.dart';
+import 'package:news_feed/view/screens/news_web_page_screen.dart';
 import 'package:news_feed/view_models/head_line_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,32 +22,36 @@ class HeadLinePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.only(right:5.0),
+          padding: EdgeInsets.only(right: 5.0),
           child: Consumer<HeadLineViewModel>(
             builder: (context, viewModel, child) {
-              return PageTransformer(
+              if (viewModel.isLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return PageTransformer(
                   pageViewBuilder: (context, pageVisibilityResolver) {
-                return PageView.builder(
-                  controller: PageController(
-                    viewportFraction: 0.9,
-                    initialPage: 0,
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: viewModel.articles.length,
-                  itemBuilder: (context, index) {
-                    final article = viewModel.articles[index];
-                    final pageVisibility =
-                        pageVisibilityResolver.resolvePageVisibility(index);
-                    final visibleFraction = pageVisibility.visibleFraction;
-                    return HeadLineItem(
-                      article: article,
-                      pageVisibility: pageVisibility,
-                      onArticleClicked: (article) =>
-                          _openArticleWebPage(context, article),
+                    return PageView.builder(
+                      controller: PageController(
+                        viewportFraction: 0.9,
+                        initialPage: 0,
+                      ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: viewModel.articles.length,
+                      itemBuilder: (context, index) {
+                        final article = viewModel.articles[index];
+                        final pageVisibility =
+                            pageVisibilityResolver.resolvePageVisibility(index);
+                        return HeadLineItem(
+                          article: article,
+                          pageVisibility: pageVisibility,
+                          onArticleClicked: (article) =>
+                              _openArticleWebPage(context, article),
+                        );
+                      },
                     );
                   },
                 );
-              });
+              }
             },
           ),
         ),
@@ -65,6 +70,13 @@ class HeadLinePage extends StatelessWidget {
   }
 
   _openArticleWebPage(BuildContext context, Article article) {
-    print("headline");
+    print("${article.url}");
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NewsWebPageScreen(
+          article: article,
+        ),
+      ),
+    );
   }
 }

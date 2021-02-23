@@ -7,12 +7,12 @@ import 'package:news_feed/data/search_type.dart';
 import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/view_models/news_list_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:news_feed/view/screens/news_web_page_screen.dart';
 
 class NewsListPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    // 右記のような記述でも可　context.read<ViewModel>();　
+    // 右記のような記述でも可　context.read<ViewModel>();
     final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
     if (!viewModel.isLoading && viewModel.articles.isEmpty) {
       Future(() => viewModel.getNews(
@@ -92,5 +92,11 @@ class NewsListPage extends StatelessWidget {
     print("my input keyword: ${category.nameJp}");
   }
 
-  _openArticlePage(BuildContext context, Article article) {}
+  _openArticlePage(BuildContext context, Article article) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NewsWebPageScreen(article: article),
+      ),
+    );
+  }
 }
