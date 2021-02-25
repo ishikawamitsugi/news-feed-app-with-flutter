@@ -5,7 +5,11 @@ import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/models/repository/news_repository.dart';
 
 class HeadLineViewModel extends ChangeNotifier {
-  final NewsRepository _repository = NewsRepository();
+
+  final NewsRepository _repository;
+
+  // 初期化つきコンストラクタ
+  HeadLineViewModel({repository}): _repository = repository;
   List<Article> _articles = [];
 
   List<Article> get articles => _articles;

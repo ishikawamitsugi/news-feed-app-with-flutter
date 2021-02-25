@@ -2,7 +2,7 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:news_feed/data/category_info.dart';
 import 'package:news_feed/data/search_type.dart';
-import 'package:news_feed/main.dart';
+import 'package:news_feed/models/db/dao.dart';
 import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/models/networking/api_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
@@ -10,11 +10,18 @@ import 'package:news_feed/util/extensions.dart';
 
 class NewsRepository {
 
-  // ApiClientの作成
-  final ApiService _apiService = ApiService.create();
+  // メンバ変数
+  final ApiService _apiService;
+  final NewsDao _dao;
 
-  Future<List<Article>> getNews(
-      {@required SearchType searchType, String keyword, Category category}) async {
+  // 初期化つきコンストラクタ
+  NewsRepository({dao, apiService})
+      : _apiService = apiService,
+        _dao = dao;
+
+  Future<List<Article>> getNews({@required SearchType searchType,
+    String keyword,
+    Category category}) async {
     Response response;
     final apiKey = DotEnv.env["NEWS_API_KEY"];
     List<Article> result = [];
@@ -26,10 +33,12 @@ class NewsRepository {
           response = await _apiService.getHeadLines(apiKey: apiKey);
           break;
         case SearchType.KEY_WORD:
-          response = await _apiService.getKeywordNews(keyword: keyword, apiKey: apiKey);
+          response = await _apiService.getKeywordNews(
+              keyword: keyword, apiKey: apiKey);
           break;
         case SearchType.CATEGORY:
-          response = await _apiService.getCategoryNews(category: category.nameEn, apiKey: apiKey);
+          response = await _apiService.getCategoryNews(
+              category: category.nameEn, apiKey: apiKey);
           break;
       }
 
@@ -42,8 +51,7 @@ class NewsRepository {
         final error = response.error;
         print("response is not successful errCode: $errCode / $error");
       }
-    }
-    on Exception catch (error) {
+    } on Exception catch (error) {
       print("error : $error");
     }
 
@@ -51,14 +59,14 @@ class NewsRepository {
   }
 
   Future<List<Article>> insertAndReadFromDB(responseBody) async {
-    final dao = myDatabase.newsDao;
-
     // JsonからDartのクラスに変換
-    final articles = News.fromJson(responseBody).articles;
+    final articles = News
+        .fromJson(responseBody)
+        .articles;
 
     // DartのクラスからDBのクラスに変換しローカルDBに格納し、DBのクラスで返す
-    final articleRecords =  await dao.insertAndReadNewsFromDB(
-        articles.toArticleRecord(articles));
+    final articleRecords = await _dao
+        .insertAndReadNewsFromDB(articles.toArticleRecord(articles));
 
     return articleRecords.toArticle(articleRecords);
   }
