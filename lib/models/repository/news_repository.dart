@@ -2,9 +2,11 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:news_feed/data/category_info.dart';
 import 'package:news_feed/data/search_type.dart';
+import 'package:news_feed/main.dart';
 import 'package:news_feed/models/model/news_model.dart';
 import 'package:news_feed/models/networking/api_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+import 'package:news_feed/util/extensions.dart';
 
 class NewsRepository {
 
@@ -33,10 +35,8 @@ class NewsRepository {
 
       if (response.isSuccessful) {
         final responseBody = response.body;
-        //　json形式のデータからArticle形式に変換
-        result = News
-            .fromJson(responseBody)
-            .articles;
+        // DBに結果を格納して、DBから値を取得する
+        result = await insertAndReadFromDB(responseBody);
       } else {
         final errCode = response.statusCode;
         final error = response.error;
@@ -48,6 +48,19 @@ class NewsRepository {
     }
 
     return result;
+  }
+
+  Future<List<Article>> insertAndReadFromDB(responseBody) async {
+    final dao = myDatabase.newsDao;
+
+    // JsonからDartのクラスに変換
+    final articles = News.fromJson(responseBody).articles;
+
+    // DartのクラスからDBのクラスに変換しローカルDBに格納し、DBのクラスで返す
+    final articleRecords =  await dao.insertAndReadNewsFromDB(
+        articles.toArticleRecord(articles));
+
+    return articleRecords.toArticle(articleRecords);
   }
 
   void dispose() {
